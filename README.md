@@ -1,7 +1,7 @@
 <div align="center">
 
 # FTPy 
-<img src="https://readme-typing-svg.demolab.com?font=Iosevka+Nerd+Font&weight=900&pause=1000&color=6791C9&background=0C0E0F00&center=true&vCenter=true&width=700&lines=A+python3+FTP+client">
+<img src="https://readme-typing-svg.demolab.com?font=Iosevka+Nerd+Font&weight=900&pause=1000&color=6791C9&background=0C0E0F00&center=true&vCenter=true&width=700&lines=An+FTP+client+in+python3">
   
 <br/>  
  
