@@ -10,6 +10,9 @@
 ![repo size](https://img.shields.io/github/repo-size/NullBrunk/FTPy?style=for-the-badge)
 </div>
 
+![Uploading ftpydemo.gif…]()
+
+
 # Changelog
 
 All notable changes to this project will be documented in this file.
