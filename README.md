@@ -10,6 +10,8 @@
 ![repo size](https://img.shields.io/github/repo-size/NullBrunk/FTPy?style=for-the-badge)
 </div>
 
+![ftpydemo](https://github.com/NullBrunk/FTPy/assets/125673909/ebe09f66-622a-4d32-b26d-d1b3176d556f)
+
 
 # Changelog
 
