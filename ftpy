@@ -1,10 +1,16 @@
 #!/usr/bin/env python3
 
+from os import system as s
 from time import strftime
 from socket import socket
 from sys import argv
+import sys
 from pwn import log
 import re
+
+def clear():
+    s("cls || clear")
+
 
 def banner() -> None:
     print("""
@@ -46,6 +52,73 @@ def parsearg(argv) -> None:
 
     main(argv[1], port)
 
+def login(s, ip) -> bool:
+    log.success(f"Connected to {ip}")
+    print(s.recv(20).strip().decode("UTF-8") + "\n")
+
+    user = input("Username: ")
+    s.send(f"USER {user}\r\n".encode())
+    s.recv(32).strip().decode("UTF-8")
+    
+    passw = input("Password: ")
+    s.send(f"PASS {passw}\r\n".encode())
+    s.recv(4)
+    
+
+    if "230" in s.recv(21).strip().decode("UTF-8"):
+        s.recv(4)
+        return True
+    else:
+        return False
+
+def interact(s) -> None:
+    
+    while True:
+
+        cmd = input("ftp > ")
+
+        if "quit" in cmd:
+            log.success("Exiting ...")
+            return
+        elif "ls" in cmd:
+            
+            if len(cmd.split()) != 1:
+                toadd = cmd.split()[1]
+            else:
+                toadd = ""
+
+            s.send(b"PASV\r\n")
+    
+            raw = s.recv(100).strip().decode("UTF-8")
+
+            ip = '.'.join(raw.strip().split("(")[1].split(",")[:4])
+            
+            initial = raw.strip().split(",")[-2:]
+            port = (int(initial[0]) * 256) + int(initial[1].replace(").", ""))
+            
+            pasv = socket()
+            pasv.connect((ip, port))
+            s.send(f"LIST {toadd}\r\n".encode())
+
+            resp = pasv.recv(4096)
+
+            print(resp.replace(b'\r\n', b'\n').decode())
+
+            pasv.close()
+            s.recv(1024)            
+            s.recv(1024)
+
+        elif "pwd" in cmd:
+            s.send(b"PWD\r\n")
+            print(s.recv(1024).decode().split('"')[1])
+        
+        elif "cd" in cmd:
+            if not cmd.split() == 1:
+                s.send(f"CWD {cmd.split()[1]}\r\n".encode())
+                s.recv(1024)
+            else:
+                log.warning("No directory supplied")
+
 
 def main(ip: str, port: int):
     s = socket()
@@ -59,7 +132,12 @@ def main(ip: str, port: int):
     except OSError:
         log.critical("Cannot reach host !")
         return
-
+    
+    if login(s, ip):
+        interact(s)
+    else:
+        log.critical("Connection failed !")
+        return
 
 if __name__ == "__main__":
     banner()

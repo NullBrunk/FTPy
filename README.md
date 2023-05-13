@@ -9,7 +9,23 @@
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/m/NullBrunk/FTPy?style=for-the-badge)
 ![repo size](https://img.shields.io/github/repo-size/NullBrunk/FTPy?style=for-the-badge)
 
-En cours de développement ...
+# Changelog
+
+All notable changes to this project will be documented in this file.
+
+```md
+# [1.0] - 12 mai 2023
+
+- First commit
+- Implemented login (USER, PASS)
+
+# [1.1] - 13 mai 2023
+- Implemented ls (with LIST and PASV mode)
+- Implemented pwd (with PWD)
+- Implemented cd (with CWD)
+
+
+```
  
 </div>
 
