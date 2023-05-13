@@ -12,16 +12,6 @@ def clear():
     s("cls || clear")
 
 
-def banner() -> None:
-    print("""
-███████╗████████╗██████╗ ██╗   ██╗
-██╔════╝╚══██╔══╝██╔══██╗╚██╗ ██╔╝
-█████╗     ██║   ██████╔╝ ╚████╔╝
-██╔══╝     ██║   ██╔═══╝   ╚██╔╝
-██║        ██║   ██║        ██║
-╚═╝        ╚═╝   ╚═╝        ╚═╝
-""")
-
 
 def helpmsg() -> None:
     log.info("Usage: ftpy <ip> <port (default 21)>")
@@ -113,12 +103,32 @@ def interact(s) -> None:
             print(s.recv(1024).decode().split('"')[1])
         
         elif "cd" in cmd:
-            if not cmd.split() == 1:
+
+            if not len(cmd.split()) == 1:
                 s.send(f"CWD {cmd.split()[1]}\r\n".encode())
                 s.recv(1024)
             else:
-                log.warning("No directory supplied")
+                log.failure("Missing argument")
 
+        elif "mkdir" in cmd:
+            if not len(cmd.split()) == 1:
+                s.send(f"MKD {cmd.split()[1]}\r\n".encode())
+                if not b"257" in s.recv(1024):
+                    log.failure("An error has occured")
+
+            else:
+                log.failure("Missing argument")
+            
+        elif "rm" in cmd:
+            if not len(cmd.split()) == 1:
+                s.send(f"DELE {cmd.split()[1]}\r\n".encode())
+                
+                if not b"250" in s.recv(102):
+                    log.failure("An error has occured") 
+
+            else:
+                log.failure("Missing argument")
+            
 
 def main(ip: str, port: int):
     s = socket()
@@ -140,7 +150,5 @@ def main(ip: str, port: int):
         return
 
 if __name__ == "__main__":
-    banner()
-
     log.info("Launching FTPy at " + strftime("%H:%M:%S"))
     parsearg(argv)

@@ -22,9 +22,7 @@ All notable changes to this project will be documented in this file.
 
 # [1.1] - 13 mai 2023
 - Implemented ls (with LIST and PASV mode)
-- Implemented pwd (with PWD)
-- Implemented cd (with CWD)
-
+- Implemented mkdir (MKD), pwd (PWD), cd (CWD), rm (DELE)
 
 ```
  
