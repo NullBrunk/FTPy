@@ -1,0 +1,68 @@
+#!/usr/bin/env python3
+
+from time import strftime
+from socket import socket
+from sys import argv
+from pwn import log
+import re
+
+def banner() -> None:
+    print("""
+███████╗████████╗██████╗ ██╗   ██╗
+██╔════╝╚══██╔══╝██╔══██╗╚██╗ ██╔╝
+█████╗     ██║   ██████╔╝ ╚████╔╝
+██╔══╝     ██║   ██╔═══╝   ╚██╔╝
+██║        ██║   ██║        ██║
+╚═╝        ╚═╝   ╚═╝        ╚═╝
+""")
+
+
+def helpmsg() -> None:
+    log.info("Usage: ftpy <ip> <port (default 21)>")
+    log.success("Example: ftpy 192.168.1.10")
+
+
+def parsearg(argv) -> None:
+    match len(argv):
+        case 1:
+            log.critical("Missing parameter : <ip>")
+            return 
+        case 2:
+            if argv[1] in ['help', '--help', '-h', 'h']:
+                helpmsg()
+                return
+
+            port = 21
+        case 3:
+            port = argv[2]
+
+    if re.match("^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$", str(argv[1])) is None:
+        log.critical("Invalid IP !")
+        return
+
+    elif re.match("^[1-9][0-9]*$", str(port)) is None:
+        log.warning(f"Invalid port {port}, using default one")
+        port = 21
+
+    main(argv[1], port)
+
+
+def main(ip: str, port: int):
+    s = socket()
+    try:
+        s.connect((ip, int(port)))
+    
+    except ConnectionRefusedError:
+        log.critical("Connection refused !")
+        return
+    
+    except OSError:
+        log.critical("Cannot reach host !")
+        return
+
+
+if __name__ == "__main__":
+    banner()
+
+    log.info("Launching FTPy at " + strftime("%H:%M:%S"))
+    parsearg(argv)
