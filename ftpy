@@ -218,6 +218,9 @@ def interact(s) -> None:
 
                     resp = pasv.send(f+"\r\n".encode())
                     pasv.close()
+                    s.recv(1024)
+
+                    s.recv(1024)
                     log.success("Done")
                 
                 else:
