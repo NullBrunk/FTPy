@@ -1,16 +1,11 @@
 #!/usr/bin/env python3
 
-from os import system as s
+from termcolor import colored
 from time import strftime
 from socket import socket
 from sys import argv
-import sys
 from pwn import log
 import re
-
-def clear():
-    s("cls || clear")
-
 
 
 def helpmsg() -> None:
@@ -46,11 +41,19 @@ def login(s, ip) -> bool:
     log.success(f"Connected to {ip}")
     print(s.recv(20).strip().decode("UTF-8") + "\n")
 
-    user = input("Username: ")
+    try:
+        user = input("Username: ")
+    except:
+        return False
+        
     s.send(f"USER {user}\r\n".encode())
     s.recv(32).strip().decode("UTF-8")
     
-    passw = input("Password: ")
+    try:
+        passw = input("Password: ")
+    except:
+        return False
+
     s.send(f"PASS {passw}\r\n".encode())
     s.recv(4)
     
@@ -65,11 +68,17 @@ def interact(s) -> None:
     
     while True:
 
-        cmd = input("ftp > ")
+        try:
+            cmd = input("ftp > ")
+        except:
+            cmd = "quit"
 
         if "quit" in cmd:
-            log.success("Exiting ...")
+            s.send(b"quit\r\n")
+            log.success("Goodbye !")
+            s.close()
             return
+
         elif "ls" in cmd:
             
             if len(cmd.split()) != 1:
@@ -123,11 +132,96 @@ def interact(s) -> None:
             if not len(cmd.split()) == 1:
                 s.send(f"DELE {cmd.split()[1]}\r\n".encode())
                 
-                if not b"250" in s.recv(102):
+                a = s.recv(102)
+                
+                if not b"250" in a:
+                    log.failure("An error has occured")
+            else:
+                log.failure("Missing argument")
+
+
+        elif "chmod" in cmd:
+            if len(cmd.split()) == 3:
+                
+                cmd = cmd.split()[1:]
+
+                try:
+                    int(cmd[0])
+                    s.send(f"SITE CHMOD {cmd[0]} {cmd[1]}\r\n".encode())
+
+                except:
+                    s.send(f"SITE CHMOD {cmd[1]} {cmd[0]}\r\n".encode())
+
+                if not b"200" in s.recv(1024):
                     log.failure("An error has occured") 
+                
 
             else:
                 log.failure("Missing argument")
+
+        elif "get" in cmd:
+                
+                if len(cmd.split()) != 1:
+                    toadd = cmd.split()[1]
+
+
+                    s.send(b"PASV\r\n")
+            
+                    raw = s.recv(100).strip().decode("UTF-8")
+
+                    ip = '.'.join(raw.strip().split("(")[1].split(",")[:4])
+                    
+                    initial = raw.strip().split(",")[-2:]
+                    port = (int(initial[0]) * 256) + int(initial[1].replace(").", ""))
+                    
+                    pasv = socket()
+                    pasv.connect((ip, port))
+                    s.send(f"RETR {toadd}\r\n".encode())
+
+                    resp = pasv.recv(4096)
+                    pasv.close()
+                    
+                    with open(toadd, 'wb') as f:
+                        f.write(resp)
+                    log.info("Done")
+                    s.recv(1024)            
+                
+                else:
+                    log.failure("An error occured")
+     
+
+        elif "put" in cmd:
+                
+                if len(cmd.split()) != 1:
+                    toadd = cmd.split()[1]
+
+
+                    s.send(b"PASV\r\n")
+            
+                    raw = s.recv(100).strip().decode("UTF-8")
+
+                    ip = '.'.join(raw.strip().split("(")[1].split(",")[:4])
+                    
+                    initial = raw.strip().split(",")[-2:]
+                    port = (int(initial[0]) * 256) + int(initial[1].replace(").", ""))
+                    
+                    pasv = socket()
+                    pasv.connect((ip, port))
+
+                    try: 
+                        with open(toadd, 'rb') as f:
+                            f = f.read()
+                    except:
+                        log.failure("Could not open the file")
+
+                    s.send(f"STOR {toadd}\r\n".encode())
+
+                    resp = pasv.send(f+"\r\n".encode())
+                    pasv.close()
+                    log.success("Done")
+                
+                else:
+                    log.failure("Missing argument")
             
 
 def main(ip: str, port: int):
