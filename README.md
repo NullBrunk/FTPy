@@ -19,7 +19,6 @@ All notable changes to this project will be documented in this file.
 
 ```md
 # [1.0] - 12 mai 2023
-
 - First commit
 - Implemented login (USER, PASS)
 
