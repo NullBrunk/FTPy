@@ -96,21 +96,8 @@ def ls(s, cmd: str):
     else:
         toadd = ""
 
-    # Entering PASV mode
-    s.send(b"PASV\r\n")
-
-    # Get IP and port 
-    raw = s.recv(100).strip().decode("UTF-8")
-
-    ip = '.'.join(raw.strip().split("(")[1].split(",")[:4])
+    pasv = enter_pasv_mode(s)
     
-    initial = raw.strip().split(",")[-2:]
-    port = (int(initial[0]) * 256) + int(initial[1].replace(").", ""))
-    
-    # Connect to the IP and PORT 
-
-    pasv = socket()
-    pasv.connect((ip, port))
     s.send(f"LIST {toadd}\r\n".encode())
 
     # Get the output of the LIST command
@@ -122,6 +109,11 @@ def ls(s, cmd: str):
     s.recv(1024)            
     s.recv(1024)
 
+
+def quit(s):
+    s.send(b"quit\r\n")
+    log.success("Goodbye !")
+    s.close()
 
 def cd(s, cmd: str):
 
@@ -266,12 +258,6 @@ def interact(s) -> None:
         else:
             log.failure("Invalid command")      
 
-
-def quit(s):
-
-    s.send(b"quit\r\n")
-    log.success("Goodbye !")
-    s.close()
 
 def main(ip: str, port: int):
     s = socket()
