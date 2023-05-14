@@ -27,6 +27,9 @@ All notable changes to this project will be documented in this file.
 - Implemented ls (with LIST and PASV mode)
 - Implemented mkdir (MKD), pwd (PWD), cd (CWD), rm (DELE), chmod (SITE CHMOD), get (RETR), put (STOR)
 
+# [1.2] - 14 mai 2023
+- Added the License (GPL 3)
+- Refactoring
 ```
  
 
