@@ -22,8 +22,8 @@ def parsearg(argv) -> None:
         if argv[1] in ['help', '--help', '-h', 'h']:
             helpmsg()
             return
-
-            port = 21
+        port = 21
+        
     elif len(argv) == 3:
         port = argv[2]
 
@@ -221,7 +221,7 @@ def interact(s) -> None:
                     s.recv(1024)
 
                     s.recv(1024)
-                    log.success("Done")
+                    log.info("Done")
                 
                 else:
                     log.failure("Missing argument")
