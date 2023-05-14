@@ -17,7 +17,7 @@
 
 All notable changes to this project will be documented in this file.
 
-```changelog
+```bash
 # [1.0] - 12 mai 2023
 - First commit
 - Implemented login (USER, PASS)
