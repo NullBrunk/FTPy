@@ -1,7 +1,7 @@
 <div align="center">
 
 # FTPy 
-<img src="https://readme-typing-svg.demolab.com?font=Iosevka+Nerd+Font&weight=900&pause=1000&color=6791C9&background=0C0E0F00&center=true&vCenter=true&width=700&lines=An+FTP+client+in+python3">
+<img src="https://readme-typing-svg.demolab.com?font=Iosevka+Nerd+Font&weight=900&pause=1000&color=6791C9&background=0C0E0F00&center=true&vCenter=true&width=700&lines=An+FTP+client+built+with+@python3">
 <br/>  
   
 ![GitHub top language](https://img.shields.io/github/languages/top/NullBrunk/FTPy?style=for-the-badge)
@@ -19,7 +19,7 @@ All notable changes to this project will be documented in this file.
 ```bash
 # [1.0] - 12 mai 2023
 - First commit
-- Implemented login (USER, PASS)
+- Implemented authentication (USER, PASS)
 
 # [1.1] - 13 mai 2023
 - Implemented ls (with LIST and PASV mode)
@@ -27,7 +27,7 @@ All notable changes to this project will be documented in this file.
 
 # [1.2] - 14 mai 2023
 - Added the License (GPL 3)
-- Refactoring
+- Refactored
 ```
  
 # ⚒️ Installation
