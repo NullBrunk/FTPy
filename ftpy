@@ -47,7 +47,7 @@ def helpmsg() -> None:
 def parsearg(argv: list) -> None:
 
     """
-    This fonction is designed to parse argument provided
+    This function is designed to parse argument provided
     from Command Line, and to call the main function 
     """
 
@@ -66,7 +66,7 @@ def parsearg(argv: list) -> None:
 
 
     elif len(argv) == 3:
-        # There is probably IP and Port passed threw CLI
+        # There is probably IP and Port passed through CLI
         port = argv[2]
 
 
