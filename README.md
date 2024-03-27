@@ -11,7 +11,6 @@
 
 ![ftpydemo](https://github.com/NullBrunk/FTPy/assets/125673909/ebe09f66-622a-4d32-b26d-d1b3176d556f)
 
-
 # 📖 Changelog
 
 All notable changes to this project will be documented in this file.
