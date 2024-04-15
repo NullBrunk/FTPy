@@ -11,6 +11,14 @@
 
 ![ftpydemo](https://github.com/NullBrunk/FTPy/assets/125673909/ebe09f66-622a-4d32-b26d-d1b3176d556f)
 
+ 
+# ⚒️ Installation
+```bash
+git clone https://github.com/NullBrunk/FTPy && cd FTPy
+pip3 install -r requirements.txt
+python3 ftpy
+```
+
 # 📖 Changelog
 
 All notable changes to this project will be documented in this file.
@@ -28,11 +36,4 @@ All notable changes to this project will be documented in this file.
 - Added the License (GPL 3)
 - Refactored
 ```
- 
-# ⚒️ Installation
-```bash
-git clone https://github.com/NullBrunk/FTPy
-cd FTPy
-pip3 install -r requirements.txt
-python3 ftpy
-```
+
