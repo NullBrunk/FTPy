@@ -22,7 +22,7 @@ python3 ftpy
 # 📖 Changelog
 
 > [!IMPORTANT]
-> All notable changes to this project will be documented in this file.
+> **All notable changes to this project will be documented in this file.**
 
 ```bash
 # [1.0] - 12 mai 2023
