@@ -16,7 +16,8 @@
 ```bash
 git clone https://github.com/NullBrunk/FTPy && cd FTPy
 pip3 install -r requirements.txt
-python3 ftpy
+chmod +x ftpy
+./ftpy
 ```
 
 # 📖 Changelog
