@@ -180,7 +180,7 @@ def mkdir(s, cmd: str):
     if not len(cmd.split()) == 1:
         s.send(f"MKD {cmd.split()[1]}\r\n".encode())
         if not b"257" in s.recv(1024):
-            log.failure("An error has occured")
+            log.failure("An error has occurred")
 
     else:
         log.failure("Missing argument")
@@ -193,7 +193,7 @@ def rm(s, cmd: str):
         a = s.recv(102)
         
         if not b"250" in a:
-            log.failure("An error has occured")
+            log.failure("An error has occurred")
     else:
         log.failure("Missing argument")
 
@@ -211,7 +211,7 @@ def chmod(s, cmd: str):
             s.send(f"SITE CHMOD {cmd[1]} {cmd[0]}\r\n".encode())
 
         if not b"200" in s.recv(1024):
-            log.failure("An error has occured") 
+            log.failure("An error has occurred") 
 
     else:
         log.failure("Missing argument")
@@ -235,7 +235,7 @@ def get(s, cmd: str):
             s.recv(1024)            
         
         else:
-            log.failure("An error occured")
+            log.failure("An error occurred")
 
 def put(s, cmd: str):
 
